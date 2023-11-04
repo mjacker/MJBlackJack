@@ -23,14 +23,14 @@ public class Dealer extends Hand {
 	public void cardToPlayer(Player player, Deck deck) {
 		Card c = deck.popCard();
 		player.add(c);
-		System.out.println("Card dealt to *" + Main.fixedLengthString(player.getName(), 10) + "   *\t is : " + c.toString() + " [Score: "+c.getId()+"]" + " [Balance: " + player.getBalance() + "].");
+		System.out.println("Card dealt to *" + Static.Funtions.fixedLengthString(player.getName(), 10) + "   *\t is : " + c.toString() + " [Score: "+c.getId()+"]" + " [Balance: " + player.getBalance() + "].");
 	}
 	
 	public void cardToDealer(Deck deck) {
 		Card c = deck.popCard();
 		this.add(c);
 		//this.add(new Card("Ah"));
-		System.out.println("Card dealt to *" + Main.fixedLengthString(this.name, 10) + "   *\t is : " + c.toString() + " [Score: "+ this.score() +"].");
+		System.out.println("Card dealt to *" + Static.Funtions.fixedLengthString(this.name, 10) + "   *\t is : " + c.toString() + " [Score: "+ this.score() +"].");
 	}
 	
 	// overload function to handle hidden cards
@@ -38,7 +38,7 @@ public class Dealer extends Hand {
 		Card c = deck.popCard();
 		this.addHidden(c);
 		//this.add(new Card("Ah"));
-		System.out.println("Card dealt to *" + Main.fixedLengthString(this.name, 10) + "   *\t is : " + "Xx" + " [Score: "+ "X" +"].\n");
+		System.out.println("Card dealt to *" + Static.Funtions.fixedLengthString(this.name, 10) + "   *\t is : " + "Xx" + " [Score: "+ "X" +"].\n");
 	}
 
 	public void addHidden (Card card) {
@@ -46,7 +46,7 @@ public class Dealer extends Hand {
 	}
 
 	public void revealHiddenCard(){
-		Main.CLS();
+		Static.Funtions.CLS();
 		Menu.Welcome.printWelcome();
 		Card c = this.hiddencards.remove(0);
 		System.out.println("************************************************");
@@ -75,11 +75,11 @@ public class Dealer extends Hand {
 		// // Disabled manual input for testing.
 		// // auto choosing is 50% hit, 50% stand
 		// String [] playerchoises = {"hit", "stand"}; // for automatization
-		// Main.wait(1000);	
+		// Static.Funtions.wait(1000);	
 		// player.setAction(playerchoises[new Random().nextInt(playerchoises.length)]);
 		
 		// Enabled manual input for hit and stand.
-		player.setAction(Main.scannerObjectString());
+		player.setAction(Static.Funtions.scannerObjectString());
 		
 		return player.isStand();	
 	}

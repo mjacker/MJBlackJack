@@ -18,7 +18,7 @@ public class Game {
     
 	// Constructor
     public Game(int number_players, int number_deck){    
-		Main.CLS();	
+		Static.Funtions.CLS();	
 		Welcome.printWelcome();
 		// press Enter to start the game
     	System.out.println("\n************************************************");		
@@ -27,7 +27,7 @@ public class Game {
 
 		// ! here need a 1-3 player error handler
 		System.out.println("How many player will play [1-3]: ");
-		number_players = Integer.valueOf(Main.scannerObjectString());
+		number_players = Integer.valueOf(Static.Funtions.scannerObjectString());
 
 		// System.out.println(number_players);
 
@@ -36,7 +36,7 @@ public class Game {
         for (int i = 0; i < number_players; i++){
 			System.out.print("Player" + (i + 1) + " name: ");
 
-			name = Main.scannerObjectString();
+			name = Static.Funtions.scannerObjectString();
 			// name = scannerObjectString();
             this.players.add(new Player(name, 3));
         }
@@ -44,7 +44,7 @@ public class Game {
         deck = new Deck(number_deck);
 
 		System.out.println("\nPress enter to start.");
-		Main.scannerObjectString();
+		Static.Funtions.scannerObjectString();
     }	
 
 
@@ -53,7 +53,7 @@ public class Game {
     	int countround = 0;
     	while (countround >= 0 && !players.isEmpty()){
 
-			Main.CLS();
+			Static.Funtions.CLS();
 			Welcome.printWelcome();
 
 			// Pay bet to join this round.
@@ -69,16 +69,16 @@ public class Game {
 			System.out.println("*** cards left in deck: " + this.deck.countCards() + " ***");
 			System.out.println("************************************************");		
     		System.out.println("*** Dealing cards ***");
-			Main.wait(delayTime);	
+			Static.Funtions.wait(delayTime);	
 			// dealer give cards to each player
 			for (Player player : players) { 		      
 				dealer.cardToPlayer(player, this.deck);
-				Main.wait(delayTime);	
+				Static.Funtions.wait(delayTime);	
 		   }
 
     		// dealer give card to dealer
     		dealer.cardToDealer(this.deck);
-			Main.wait(delayTime);	
+			Static.Funtions.wait(delayTime);	
    
 			// give a space to second group of card given by Dealer
 			System.out.println("");
@@ -86,31 +86,31 @@ public class Game {
 			// dealer give cards to each player
 			for (Player player : players) { 		      
 				dealer.cardToPlayer(player, this.deck);
-				Main.wait(delayTime);	
+				Static.Funtions.wait(delayTime);	
 		   }
     		
 			// dealer give a HIDDEN card to dealer
     		dealer.cardToDealer(this.deck, true);
 			
 			// // Here could wait 3 second to next screen or, press enter to continue
-			// Main.wait(3000);	
+			// Static.Funtions.wait(3000);	
 			System.out.println("Press to continue...");
-			Main.scannerObjectString();
+			Static.Funtions.scannerObjectString();
 			
     		
 			// Dealer interact with each player 
 			for (Player player : players) { 		      
 				// clear screen
-				Main.CLS();
+				Static.Funtions.CLS();
 				Menu.Welcome.printWelcome();
 				// Table view
 				tableView(this.dealer, this.players, true);
     			System.out.println("\n************************************************");		
-				System.out.println("Player " + Main.fixedLengthString(player.getName(), 10) + " turn:");
+				System.out.println("Player " + Static.Funtions.fixedLengthString(player.getName(), 10) + " turn:");
 				System.out.println("Your cards are: " + player.getCards() + " [Score: " + player.score() + "]");
 				// System.out.println("Press enter to reveal your cards.");
     			System.out.println("************************************************");		
-				// Main.scannerObjectString();
+				// Static.Funtions.scannerObjectString();
 
 				// revealing player cards
 				// System.out.println(player.getCards());
@@ -137,10 +137,10 @@ public class Game {
 				// System.out.println(player.getName() + " action is: " + player.getAction()); // Resquired on homework originally.
 
         		
-				System.out.println(Main.verbose ? player.getName() + " choosed " + player.getAction(): "" );
+				// System.out.println(Static.Funtions.verbose ? player.getName() + " choosed " + player.getAction(): "" );
     
 				System.out.println("\n\nPress enter to next player continue...");
-				Main.scannerObjectString();
+				Static.Funtions.scannerObjectString();
 			}
 
 			// Reveal hidden card
@@ -166,16 +166,16 @@ public class Game {
 
 			System.out.println("\n\n>> Press enter to go to next round...");
 			System.out.println("\n************************************************");		
-			Main.scannerObjectString();
+			Static.Funtions.scannerObjectString();
     	}
-		Main.CLS();
+		Static.Funtions.CLS();
 		Menu.Welcome.printWelcome();
 		System.out.println("no more players in the table");
-		Main.wait(3000);
+		Static.Funtions.wait(3000);
 		System.out.println(" ... so  sad...");
-		Main.wait(3000);
+		Static.Funtions.wait(3000);
 		Menu.GameOver.printGameOver();
-		Main.wait(3000);
+		Static.Funtions.wait(3000);
 		return 0;
     }
     
@@ -187,7 +187,7 @@ public class Game {
 		// Print Players hands
 		if (showPlayers) {
 			for (Player player : players) { 		      
-				System.out.println("Player *" + Main.fixedLengthString(player.getName(), 10) + "* has: " + player.getCards()
+				System.out.println("Player *" + Static.Funtions.fixedLengthString(player.getName(), 10) + "* has: " + player.getCards()
 				+ " [Score: " + player.score()+"]"
 				+ " [Balance: " + player.getBalance() + "]."
 				+ " [Status: " + (player.isBust() ? "BUSTED!." : "- ") + "]."); 	
