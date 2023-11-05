@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import Blackjack.Main;
+// import Main;
+import Menu.GameMenu;
 
 public class Dealer extends Hand {
 	private String name = "";
@@ -47,7 +48,8 @@ public class Dealer extends Hand {
 
 	public void revealHiddenCard(){
 		Static.Funtions.CLS();
-		Menu.Welcome.printWelcome();
+		GameMenu menu = new GameMenu();
+		menu.printWelcome();
 		Card c = this.hiddencards.remove(0);
 		System.out.println("************************************************");
 		System.out.println("Show " + this.name + "'s second card is: " + c.toString() + " [Score: " + c.getId() + "]");

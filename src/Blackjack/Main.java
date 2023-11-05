@@ -1,5 +1,6 @@
-package Blackjack;
 
+
+import Game.Game;
 
 // import StaticFuntions.Static.*;
 
@@ -10,5 +11,6 @@ public class Main {
 		// Creating a Game
 		Game game = new Game(3, 1);
 		game.rounds(); // Main loop of the game
+		System.out.println("pato");
 	}
 }

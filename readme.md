@@ -1,6 +1,19 @@
 #BlackJack project
 This project is about creating a simple version of BlackJack game applying concepts from a java course.
 
+# Task Flow Queue
+[ ] Global asking if want to continue next round
+    - if yes: continue.
+    - if no: all players left the table.
+[] Aplying interfaces to menu.
+[x] can play next round if player has enough coins.
+[x] Join the table, left the table.
+[x] Fix count score for all players, need implements bust.
+[x] implements n players.
+[x] implements n rounds in the game.
+[x] player auto choose randomly between hit and stand.
+[x] Delete press enter to start.
+
 # Features list to implement in.
 - [optional] try to implement interfaces.
 - Before start the game choose how many players will play the game, preferably [1-3] players.
@@ -20,14 +33,3 @@ This project is about creating a simple version of BlackJack game applying conce
 [ ] Printed messgae 'Press enter to next player continue..." after las player playing shoud not be displayed.
 [x] Negative bet when not more coins.
 
-# Task Flow Queue
-[x] Delete press enter to start.
-[x] player auto choose randomly between hit and stand.
-[x] implements n rounds in the game.
-[x] implements n players.
-[x] Fix count score for all players, need implements bust.
-[x] Join the table, left the table.
-[x] can play next round if player has enough coins.
-[ ] Global asking if want to continue next round
-    - if yes: continue.
-    - if no: all players left the table.

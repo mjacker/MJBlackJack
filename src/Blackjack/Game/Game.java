@@ -1,60 +1,100 @@
-package Blackjack;
+package Game;
 import java.util.ArrayList;
 
-import Menu.Welcome;
+import Menu.GameMenu;
 import Objects.Dealer;
 import Objects.Deck;
 import Objects.Player;
 
-public class Game {
+public class Game implements GameInterface{
+	// Game Elements
+	int delayTime = 500;
+	int number_players;
+	int number_deck;
+	GameMenu menu = new GameMenu();
+
+	// BlackJack Elements
     Dealer dealer = new Dealer();
-    // Declare the deck card
     Deck deck;
-    
     ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<Player> leftplayers = new ArrayList<Player>();
-
-	int delayTime = 500;
     
 	// Constructor
     public Game(int number_players, int number_deck){    
+		// Cleaning screen, print menu
 		Static.Funtions.CLS();	
-		Welcome.printWelcome();
-		// press Enter to start the game
-    	System.out.println("\n************************************************");		
-        System.out.println("*** The game is starting...***");
-    	System.out.println("\n************************************************");		
+		menu.printWelcome();
+		menu.gameStarting();
 
-		// ! here need a 1-3 player error handler
-		System.out.println("How many player will play [1-3]: ");
-		number_players = Integer.valueOf(Static.Funtions.scannerObjectString());
+		// Ask user custom parameters
+		number_players = numberOfPlayersToPlay();
+		number_deck = numberOfDecksToUse();
 
-		// System.out.println(number_players);
-
-    	// Creating n players 
-		String name;
-        for (int i = 0; i < number_players; i++){
-			System.out.print("Player" + (i + 1) + " name: ");
-
-			name = Static.Funtions.scannerObjectString();
-			// name = scannerObjectString();
-            this.players.add(new Player(name, 3));
-        }
-        // Initilize the number of Decks
+        // Initilize elements 
+		this.players = createNplayers(number_players);
         deck = new Deck(number_deck);
 
-		System.out.println("\nPress enter to start.");
-		Static.Funtions.scannerObjectString();
+		menu.enterToStard();	
     }	
 
+	public int numberOfPlayersToPlay(){
+		System.out.println("How many player will play in this game? [1-7]: ");
+		int n = 0;
+		try {
+			n =  Integer.valueOf(Static.Funtions.scannerObjectString());
+			while (!(n > 0 && n < 7)){
+				System.out.println("---> Number not in range [1-7]. Try again...");
+				n =  Integer.valueOf(Static.Funtions.scannerObjectString());
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Input not a number! Try again...\n\n");
+			numberOfPlayersToPlay();
+		}
+		return n;
+	}
 
+	public int numberOfDecksToUse(){
+		System.out.println("\nHow many decks will be use for this game? [1-8]: ");
+		int n = 0;
+		try {
+			n =  Integer.valueOf(Static.Funtions.scannerObjectString());
+			while (!(n > 0 && n < 7)){
+				System.out.println("---> Number not in range [1-8]. Try again...");
+				n =  Integer.valueOf(Static.Funtions.scannerObjectString());
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Input not a number! Try again...\n\n");
+			numberOfDecksToUse();
+		}
+		return n;
+	}
+    
+
+	private ArrayList<Player> createNplayers(int nplayers){
+		// Creating n players 
+		String name;
+		ArrayList<Player> players = new ArrayList<Player>();
+
+        for (int i = 0; i < nplayers; i++){
+			System.out.print("Player" + (i + 1) + " name: ");
+			name = Static.Funtions.scannerObjectString();
+            players.add(new Player(name, 3));
+        }
+		return players;
+	}
     // only one round for this hw1
     public int rounds() {
     	int countround = 0;
     	while (countround >= 0 && !players.isEmpty()){
 
 			Static.Funtions.CLS();
-			Welcome.printWelcome();
+			// Welcome.printWelcome();
+			menu.printWelcome();
+
 
 			// Pay bet to join this round.
 			System.out.println("\n************************************************");		
@@ -102,7 +142,7 @@ public class Game {
 			for (Player player : players) { 		      
 				// clear screen
 				Static.Funtions.CLS();
-				Menu.Welcome.printWelcome();
+				menu.printWelcome();
 				// Table view
 				tableView(this.dealer, this.players, true);
     			System.out.println("\n************************************************");		
@@ -169,18 +209,20 @@ public class Game {
 			Static.Funtions.scannerObjectString();
     	}
 		Static.Funtions.CLS();
-		Menu.Welcome.printWelcome();
+		menu.printWelcome();
 		System.out.println("no more players in the table");
 		Static.Funtions.wait(3000);
 		System.out.println(" ... so  sad...");
 		Static.Funtions.wait(3000);
-		Menu.GameOver.printGameOver();
+		menu.printGameOver();
 		Static.Funtions.wait(3000);
 		return 0;
     }
-    
+
+
     public static void tableView(Dealer dealer, ArrayList<Player> players, boolean showPlayers) {
-		if (!showPlayers) Welcome.printWelcome();
+		GameMenu menu = new GameMenu();
+		if (!showPlayers) menu.printWelcome();
     	System.out.println("\n************************************************");		
     	System.out.println("*** Table view***");
     	
