@@ -9,8 +9,7 @@ public class Main {
 	// public static void main(String [] args) throws IOException, InterruptedException {
 	public static void main(String [] args) {
 		// Creating a Game
-		Game game = new Game(3, 1);
+		Game game = new Game();
 		game.rounds(); // Main loop of the game
-		System.out.println("pato");
 	}
 }

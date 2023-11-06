@@ -49,7 +49,7 @@ public class Dealer extends Hand {
 	public void revealHiddenCard(){
 		Static.Funtions.CLS();
 		GameMenu menu = new GameMenu();
-		menu.printWelcome();
+		menu.title();
 		Card c = this.hiddencards.remove(0);
 		System.out.println("************************************************");
 		System.out.println("Show " + this.name + "'s second card is: " + c.toString() + " [Score: " + c.getId() + "]");

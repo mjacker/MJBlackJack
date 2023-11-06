@@ -20,19 +20,22 @@ public class Game implements GameInterface{
     ArrayList<Player> leftplayers = new ArrayList<Player>();
     
 	// Constructor
-    public Game(int number_players, int number_deck){    
+	/**
+	 * Create the BlackJack Game
+	 */
+    public Game(){    
 		// Cleaning screen, print menu
 		Static.Funtions.CLS();	
-		menu.printWelcome();
+		menu.title();
 		menu.gameStarting();
 
 		// Ask user custom parameters
-		number_players = numberOfPlayersToPlay();
-		number_deck = numberOfDecksToUse();
+		int number_players = numberOfPlayersToPlay();
+		int number_deck = numberOfDecksToUse();
 
         // Initilize elements 
 		this.players = createNplayers(number_players);
-        deck = new Deck(number_deck);
+        this.deck = new Deck(number_deck);
 
 		menu.enterToStard();	
     }	
@@ -48,7 +51,6 @@ public class Game implements GameInterface{
 			}
 		}
 		catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("Input not a number! Try again...\n\n");
 			numberOfPlayersToPlay();
 		}
@@ -66,7 +68,6 @@ public class Game implements GameInterface{
 			}
 		}
 		catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("Input not a number! Try again...\n\n");
 			numberOfDecksToUse();
 		}
@@ -87,13 +88,19 @@ public class Game implements GameInterface{
 		return players;
 	}
     // only one round for this hw1
-    public int rounds() {
+	/**
+	 * The round represent the main Loop where the interaction
+	 * between Dealer, table and players occurs.
+	 */
+    public void rounds() {
     	int countround = 0;
     	while (countround >= 0 && !players.isEmpty()){
 
+			// clean console screen
 			Static.Funtions.CLS();
-			// Welcome.printWelcome();
-			menu.printWelcome();
+
+			// 
+			menu.title();
 
 
 			// Pay bet to join this round.
@@ -142,7 +149,7 @@ public class Game implements GameInterface{
 			for (Player player : players) { 		      
 				// clear screen
 				Static.Funtions.CLS();
-				menu.printWelcome();
+				menu.title();
 				// Table view
 				tableView(this.dealer, this.players, true);
     			System.out.println("\n************************************************");		
@@ -171,7 +178,7 @@ public class Game implements GameInterface{
 					// System.out.println(("Is this hand's player busted after receiving a card?: " + player.isBust()));
 					// System.out.println(("Currend hand score: " + player.score()));
 
-					if (player.isBust()) System.out.println("You got Busted!");
+					if (player.isBust()) System.out.println("\n===>>> You got Busted! <<<===");
 					else System.out.println("\nYou continue playing in this round.");
 				}
 				// System.out.println(player.getName() + " action is: " + player.getAction()); // Resquired on homework originally.
@@ -209,20 +216,19 @@ public class Game implements GameInterface{
 			Static.Funtions.scannerObjectString();
     	}
 		Static.Funtions.CLS();
-		menu.printWelcome();
+		menu.title();
 		System.out.println("no more players in the table");
 		Static.Funtions.wait(3000);
 		System.out.println(" ... so  sad...");
 		Static.Funtions.wait(3000);
 		menu.printGameOver();
 		Static.Funtions.wait(3000);
-		return 0;
     }
 
 
     public static void tableView(Dealer dealer, ArrayList<Player> players, boolean showPlayers) {
 		GameMenu menu = new GameMenu();
-		if (!showPlayers) menu.printWelcome();
+		if (!showPlayers) menu.title();
     	System.out.println("\n************************************************");		
     	System.out.println("*** Table view***");
     	

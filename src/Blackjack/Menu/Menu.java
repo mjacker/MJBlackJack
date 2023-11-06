@@ -1,7 +1,7 @@
 package Menu;
 
 interface Menu {
-    void printWelcome();
+    void title();
     void printGameOver();
     void gameStarting();
 }

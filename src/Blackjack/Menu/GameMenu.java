@@ -3,7 +3,7 @@ package Menu;
 public class GameMenu implements Menu {
     
     @Override
-    public void printWelcome(){
+    public void title(){
         System.out.println("██████╗ ██╗      █████╗  ██████╗██╗  ██╗     ██╗ █████╗  ██████╗██╗  ██╗");
         System.out.println("██╔══██╗██║     ██╔══██╗██╔════╝██║ ██╔╝     ██║██╔══██╗██╔════╝██║ ██╔╝");
         System.out.println("██████╔╝██║     ███████║██║     █████╔╝      ██║███████║██║     █████╔╝ ");
@@ -26,12 +26,12 @@ public class GameMenu implements Menu {
     public void gameStarting(){
     	System.out.println("\n************************************************");		
         System.out.print("*** The game is starting***");
-        Static.Funtions.wait(1000);
-        System.out.print(".");
-        Static.Funtions.wait(1000);
-        System.out.print(".");
-        Static.Funtions.wait(1000);
-        System.out.println(".");
+        int n = 0;
+        while (n < 20){
+            Static.Funtions.wait(100);
+            System.out.print(".");
+            n++;
+        }
     	System.out.println("\n************************************************");	
     }
 
