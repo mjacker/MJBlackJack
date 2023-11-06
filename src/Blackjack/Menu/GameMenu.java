@@ -39,4 +39,11 @@ public class GameMenu implements Menu {
         System.out.println("\nPress enter to start.");
 		Static.Funtions.scannerObjectString();
     }
+
+    public void rounds(int countround, int cardsLeftInDeck){
+            System.out.println("\n************************************************");		
+			System.out.println("*** Round number: " + (countround + 1) + " ***");
+			System.out.println("*** cards left in deck: " + cardsLeftInDeck + " ***");
+			System.out.println("************************************************");
+    }
 }

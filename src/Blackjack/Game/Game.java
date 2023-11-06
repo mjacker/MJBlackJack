@@ -45,7 +45,7 @@ public class Game implements GameInterface{
 		int n = 0;
 		try {
 			n =  Integer.valueOf(Static.Funtions.scannerObjectString());
-			while (!(n > 0 && n < 7)){
+			while (!(n > 0 && n <= 7)){
 				System.out.println("---> Number not in range [1-7]. Try again...");
 				n =  Integer.valueOf(Static.Funtions.scannerObjectString());
 			}
@@ -62,7 +62,7 @@ public class Game implements GameInterface{
 		int n = 0;
 		try {
 			n =  Integer.valueOf(Static.Funtions.scannerObjectString());
-			while (!(n > 0 && n < 7)){
+			while (!(n > 0 && n <= 8)){
 				System.out.println("---> Number not in range [1-8]. Try again...");
 				n =  Integer.valueOf(Static.Funtions.scannerObjectString());
 			}
@@ -74,7 +74,11 @@ public class Game implements GameInterface{
 		return n;
 	}
     
-
+	/**
+	 * Create an array of Players for the game
+	 * @param nplayers Number of players to be created.
+	 * @return return the array of players created with names and balance account.
+	 */
 	private ArrayList<Player> createNplayers(int nplayers){
 		// Creating n players 
 		String name;
@@ -87,6 +91,7 @@ public class Game implements GameInterface{
         }
 		return players;
 	}
+
     // only one round for this hw1
 	/**
 	 * The round represent the main Loop where the interaction
@@ -99,25 +104,19 @@ public class Game implements GameInterface{
 			// clean console screen
 			Static.Funtions.CLS();
 
-			// 
+			// Print the title
 			menu.title();
 
+			payBet(this.players, this.leftplayers, false);
 
-			// Pay bet to join this round.
-			System.out.println("\n************************************************");		
-			System.out.println("*** Paying $1 Bet to join this round ***");
-			payBet(this.players, this.leftplayers);
-
-			// players who left the table
+			// Display players who left the table
 			tableLeftPlayers(this.leftplayers);
 
-			System.out.println("\n************************************************");		
-			System.out.println("*** Round number: " + (countround + 1) + " ***");
-			System.out.println("*** cards left in deck: " + this.deck.countCards() + " ***");
-			System.out.println("************************************************");		
-    		System.out.println("*** Dealing cards ***");
+			menu.rounds(countround, this.deck.countCards());
 			Static.Funtions.wait(delayTime);	
+			
 			// dealer give cards to each player
+    		System.out.println("*** Dealing cards ***");
 			for (Player player : players) { 		      
 				dealer.cardToPlayer(player, this.deck);
 				Static.Funtions.wait(delayTime);	
@@ -289,8 +288,21 @@ public class Game implements GameInterface{
 		}
 	}
 
-	public static int payBet(ArrayList<Player> players, ArrayList<Player> leftPlayers){
+	/**
+	 * Each players must pay a 1$ Bet to join to the round game.
+	 * If player has not enought money, will be keep out of the table.
+	 * @param players Active players that will be play this round
+	 * @param leftPlayers Left players who wont play on this round
+	 * @param recursive flag variable to prevent printing menu
+	 * @return
+	 */
+	public static int payBet(ArrayList<Player> players, ArrayList<Player> leftPlayers, boolean recursive){
 		Player movingPlayer = null;
+		if (!recursive){
+			 // Pay bet to join this round, by default players pays 1$.
+			System.out.println("\n************************************************");		
+			System.out.println("*** Paying $1 Bet to join this round ***\n");
+		}	
 		for (Player player : players){
 			if (player.getBalance() > 1){
 				player.updateBalance(-1);
@@ -308,7 +320,7 @@ public class Game implements GameInterface{
 
 				// System.out.println(leftPlayers);
 				// System.out.println(players);
-				payBet(players, leftPlayers);
+				payBet(players, leftPlayers, true);
 				return 0;
 			}
 		}
