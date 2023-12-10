@@ -6,6 +6,7 @@ import Blackjack.Static;
 
 import java.util.Scanner;
 
+import Menu.GameOver;
 import Menu.Welcome;
 import Objects.*;
 
@@ -46,7 +47,8 @@ public class Client {
 						break;
 					case "cls":
 						Static.CLS();
-				
+					case "over":
+						GameOver.printGameOver();
 					default:
 						break;
 				}

@@ -10,8 +10,7 @@ public class Server {
 		// Create a ServerSocket that listens on port 4999
 	
 		Game game = new Game(1, 1);
-		game.rounds();
-
+	
 	}
 
 /* 
