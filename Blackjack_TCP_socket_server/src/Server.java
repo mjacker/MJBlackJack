@@ -7,15 +7,8 @@ public class Server {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
-		// Deck deck = new Deck(1);
-
-		// Card card = deck.popCard();
-
-		// System.out.println( card);
-	
 		// Create a ServerSocket that listens on port 4999
 		ServerSocket serversocket = new ServerSocket(4999);
-
 
 		Deck deck = new Deck(1);
 
@@ -32,8 +25,12 @@ public class Server {
 		
 		//SECONDS CHECKPOINT
 		SendCard(serversocket,c1);
-		// SendCard(serversocket,c2);
-		// SendCard(serversocket,c3);
+		SendCard(serversocket,c2);
+		SendCard(serversocket,c3);
+
+		System.out.println(Receivecard(serversocket).toString());
+		System.out.println(Receivecard(serversocket).toString());
+		System.out.println(Receivecard(serversocket).toString());
 
 		serversocket.close();
 
@@ -89,6 +86,33 @@ public class Server {
 		}
 		*/
 	}
+	public static Card SendCard(ServerSocket serversocket, Card scard){
+		// Create a ServerSocket that listens on port 4999
+		System.out.println("Wait for connection");
+		
+		try {
+			// Accept a client connection
+			Socket socket = serversocket.accept();
+
+			// Send the message to the server
+			PrintWriter pr = new PrintWriter(socket.getOutputStream());
+
+			// pr.println(stringcard);
+			pr.println(scard.toString());
+			pr.flush();
+
+			TimeUnit.SECONDS.sleep(1);
+					
+			// Close the ServerSocket
+			socket.close();
+
+		}catch(Exception e) {
+			// Close the ServerSocket
+			// serversocket.close();
+		}
+
+		return scard;
+	}
 
 	public static Card Receivecard(ServerSocket serversocket){
 		// Create a ServerSocket that listens on port 4999
@@ -130,33 +154,4 @@ public class Server {
 		return rcard;
 	}
 
-	public static Card SendCard(ServerSocket serversocket,Card scard){
-		// Create a ServerSocket that listens on port 4999
-		System.out.println("Wait for connection");
-		
-		
-		try {
-			// Accept a client connection
-			Socket socket = serversocket.accept();
-
-			// Send the message to the server
-			PrintWriter pr = new PrintWriter(socket.getOutputStream());
-
-			// pr.println(stringcard);
-			pr.println(scard.toString());
-			pr.flush();
-
-			TimeUnit.SECONDS.sleep(1);
-					
-			// Close the ServerSocket
-			socket.close();
-
-		}catch(Exception e) {
-			// Close the ServerSocket
-			// serversocket.close();
-		
-		}
-
-		return scard;
-	}
 }
