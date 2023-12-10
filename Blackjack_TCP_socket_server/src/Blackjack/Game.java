@@ -2,6 +2,7 @@ package Blackjack;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import Menu.Welcome;
 import Objects.Dealer;
@@ -33,14 +34,11 @@ public class Game {
 		int DEFAULT_BALANCE = 3;
 
 		Static.CLS();	
-		Server.PrintAndSendMsg(serversocket, "Waiting to player to connect...");
+		System.out.println("Waiting to player to connect...");
 		Server.SendMsg(this.serversocket, "menu:cls");
 		Server.SendMsg(this.serversocket, "menu:welcome");
 		Welcome.printWelcome();
 		// press Enter to start the game
-    	Server.PrintAndSendMsg(serversocket, "\n************************************************");		
-        Server.PrintAndSendMsg(serversocket, "*** The game is starting...***");
-    	Server.PrintAndSendMsg(serversocket, "\n************************************************");		
 		Server.PrintAndSendMsg(serversocket, "***********************************************");
 		Server.PrintAndSendMsg(serversocket, "*** The game is starting...**");
 		Server.PrintAndSendMsg(serversocket, "***********************************************");
@@ -70,8 +68,7 @@ public class Game {
     	// Creating n players 
 		String name;
         for (int i = 0; i < number_players; i++){
-			Server.PrintAndSendMsg(serversocket, "Waiting for player name: ");
-			System.out.print("Player" + (i + 1) + " name: ");
+			Server.PrintAndSendMsg(serversocket, "Player" + (i + 1) + " name: ");
 			
 			Server.PrintAndSendMsg(serversocket, " Please enter your name");
 			Server.SendMsg(this.serversocket, "input:");
@@ -86,7 +83,7 @@ public class Game {
         // Initilize the number of Decks
         deck = new Deck(number_deck);
 
-		// Server.PrintAndSendMsg(serversocket, "\nPress enter to start.");
+		// Server.PrintAndSendMsg(serversocket, "Press enter to start.");
 		// Static.scannerObjectString();
 
 			rounds(serversocket);
@@ -99,12 +96,12 @@ public class Game {
 		String tmpmsg = "";
     	while (countround >= 0 && !players.isEmpty()){
 
+			Server.SendMsg(this.serversocket, "menu:cls");
+			Server.SendMsg(this.serversocket, "menu:welcome");
 			Static.CLS();
 			Welcome.printWelcome();
 
 			// Pay bet to join this round.
-			Server.PrintAndSendMsg(serversocket, "\n************************************************");		
-			Server.PrintAndSendMsg(serversocket, "*** To play in this round need to pay $1 or $2 bet.***");
 			Server.PrintAndSendMsg(serversocket, "***********************************************");
 			Server.PrintAndSendMsg(serversocket, "*** To play in this round need to pay $1 or $2 bet.***");
 
@@ -120,11 +117,12 @@ public class Game {
 				
 				Server.PrintAndSendMsg(serversocket, "no more players in the table");
 				Server.PrintAndSendMsg(serversocket, "Press enter to exit...");
-				Static.scannerObjectString();
+				Server.SendMsg(serverSocket, "input:");
+				// Static.scannerObjectString();
 				break;
 			}
 
-			tmpmsg = "\n************************************************";
+			tmpmsg = "************************************************";
 			System.out.println(tmpmsg); Server.SendMsg(serversocket, "print:" + tmpmsg);
 			Server.PrintAndSendMsg(serversocket, "*** Round number: " + (countround + 1) + " ***");
 			Server.PrintAndSendMsg(serversocket, "*** cards left in deck: " + this.deck.countCards() + " ***");
@@ -157,21 +155,26 @@ public class Game {
 			// // Here could wait 3 second to next screen or, press enter to continue
 			// Static.wait(3000);	
 			Server.PrintAndSendMsg(this.serversocket, "Press to continue...");
+			Server.SendMsg(serverSocket, "input:");
 			// Static.scannerObjectString();
 			
     		
 			// Dealer interact with each player 
 			for (Player player : players) { 		      
 				// clear screen
+				Server.SendMsg(this.serversocket, "menu:cls");
 				Static.CLS();
-				Menu.Welcome.printWelcome();
+					// Server.SendMsg(this.serversocket, "menu:welcome");
+					// Menu.Welcome.printWelcome();
 				// Table view
 				tableView(this.dealer, this.players, true, serverSocket);
-    			Server.PrintAndSendMsg(serversocket, "\n************************************************");		
+    			Server.PrintAndSendMsg(serversocket, "************************************************");		
 				Server.PrintAndSendMsg(serversocket, "Player " + Static.fixedLengthString(player.getName(), 10) + " turn:");
 				Server.PrintAndSendMsg(serversocket, "Your cards are: " + player.getCards() + " [Score: " + player.score() + "]");
 				// Server.PrintAndSendMsg(serversocket, "Press enter to reveal your cards.");
     			Server.PrintAndSendMsg(serversocket, "************************************************");		
+
+				// Server.SendMsg(serverSocket, "input:");
 				// Static.scannerObjectString();
 
 				// revealing player cards
@@ -193,20 +196,21 @@ public class Game {
 					// System.out.println(("Is this hand's player busted after receiving a card?: " + player.isBust()));
 					// System.out.println(("Currend hand score: " + player.score()));
 
-					if (player.isBust()) Server.PrintAndSendMsg(serversocket, "\n>>> " + player.getName() + " got Busted!");
-					else Server.PrintAndSendMsg(serversocket, "\n>>> " + player.getName() + " continue playing in this round.");
+					if (player.isBust()) Server.PrintAndSendMsg(serversocket, ">>> " + player.getName() + " got Busted!");
+					else Server.PrintAndSendMsg(serversocket, ">>> " + player.getName() + " continue playing in this round.");
 					
-					// Server.PrintAndSendMsg(serversocket, "***Choose you action to continue the game***\n"
+					// Server.PrintAndSendMsg(serversocket, "***Choose you action to continue the game***"
 							// + "			*** [continue, end]    ***");
 					
 				}
 				// System.out.println(player.getName() + " action is: " + player.getAction()); // Resquired on homework originally.
 
         		
-				System.out.println(Static.verbose ? player.getName() + " choosed " + player.getAction(): "" );
+				// System.out.println(Static.verbose ? player.getName() + " choosed " + player.getAction(): "" );
     
-				Server.PrintAndSendMsg(serversocket, "\n\nPress enter to next player continue...");
-				Static.scannerObjectString();
+				Server.PrintAndSendMsg(this.serversocket, "Press enter to next player continue...");
+				Server.SendMsg(serverSocket, "input:");
+				// Static.scannerObjectString();
 			}
 
 			// Reveal hidden card
@@ -230,27 +234,35 @@ public class Game {
 			// numeros de rondas para HW1 
     		countround++;
 
-			Server.PrintAndSendMsg(serversocket, "\n\n>> Press enter to go to next round...");
-			Server.PrintAndSendMsg(serversocket, "\n************************************************");		
+			Server.PrintAndSendMsg(serversocket, ">> Press enter to go to next round...");
+			Server.PrintAndSendMsg(serversocket, "************************************************");		
 			Server.SendMsg(this.serversocket, "input:");
 
 			// Static.scannerObjectString();
     	}
+
+		Server.SendMsg(this.serversocket, "menu:cls");
+		Server.SendMsg(this.serversocket, "menu:welcome");
 		Static.CLS();
 		Menu.Welcome.printWelcome();
-		Static.wait(3000);
 		Server.PrintAndSendMsg(serversocket, " ... so  sad...");
-		Server.PrintAndSendMsg(serversocket, "\n\n");
+		Server.PrintAndSendMsg(serversocket, "");
 		Static.wait(3000);
 		Menu.GameOver.printGameOver();
-		Server.SendMsg(this.serversocket, "menu:cls");
+		// Server.SendMsg(this.serversocket, "menu:cls");
+		Server.SendMsg(this.serversocket, "menu:over");
 		Static.wait(3000);
 		return 0;
     }
     
     public void tableView(Dealer dealer, ArrayList<Player> players, boolean showPlayers, ServerSocket serverSocket) {
-		if (!showPlayers) Welcome.printWelcome();
-    	Server.PrintAndSendMsg(serversocket, "\n************************************************");		
+		if (!showPlayers) {
+			Server.SendMsg(serversocket, "menu:cls");
+			Server.SendMsg(serversocket, "menu:welcome");
+			Server.SendMsg(serversocket, "menu:welcome");
+			Welcome.printWelcome();
+		}
+    	Server.PrintAndSendMsg(serversocket, "************************************************");		
     	Server.PrintAndSendMsg(serversocket, "*** Table view***");
     	
 		// Print Players hands
@@ -267,7 +279,7 @@ public class Game {
     	// Print dealers hand
     	Server.PrintAndSendMsg(serversocket, "          Dealer has: " + dealer.getCards() + dealer.countHiddenCards() + " [Score: "+dealer.score()+"].");
 		// Server.PrintAndSendMsg(serversocket, "Dealer Hidden card: " + dealer.getHiddenCards().toString());
-		Server.PrintAndSendMsg(serversocket, "\n************************************************");		
+		Server.PrintAndSendMsg(serversocket, "************************************************");		
 	}
 
     public void roundScores(Dealer dealer, ArrayList<Player> players, ServerSocket serverSocket) {
@@ -283,22 +295,22 @@ public class Game {
 		// beginning of the round
 		for (Player player : players){
 
-			Server.PrintAndSendMsg(serversocket, "\n- " + player.getName() + " [Score: " + player.score() + "] ");
+			Server.PrintAndSendMsg(serversocket, "- " + player.getName() + " [Score: " + player.score() + "] ");
 			if (player.isBust()){
-				System.out.print("╚══> BUSTED, loosing -" + Integer.toString(player.getBet()) + " bet.\n");
+				Server.PrintAndSendMsg(serversocket, "╚══> BUSTED, loosing -" + Integer.toString(player.getBet()) + " bet.");
 				player.updateBalance(0);
 			}
 			else
 				if (player.score() > dealer.score()){
-					System.out.print("╚══> WIN: getting " + Integer.toString(player.getBet() * 2) + " bets.\n");
+					Server.PrintAndSendMsg(serversocket, "╚══> WIN: getting " + Integer.toString(player.getBet() * 2) + " bets.");
 					player.updateBalance(player.getBet() * 2);
 				}
 				else if (player.score() == dealer.score()){
-					System.out.print("╚══> DRAW: Taking " + Integer.toString(player.getBet()) + " bet back.\n ");
+					Server.PrintAndSendMsg(serversocket, "╚══> DRAW: Taking " + Integer.toString(player.getBet()) + " bet back. ");
 					player.updateBalance(player.getBet());
 				}
 				else{
-					System.out.print("╚══> LOSS: loosing -" + Integer.toString(player.getBet()) + " bet.\n ");
+					Server.PrintAndSendMsg(serversocket, "╚══> LOSS: loosing -" + Integer.toString(player.getBet()) + " bet. ");
 					player.updateBalance(0);
 				}
 
@@ -306,10 +318,10 @@ public class Game {
 	}
 
 	public void tableBalances(ArrayList<Player> players, ServerSocket serverSocket){
-    	Server.PrintAndSendMsg(serversocket, "\n************************************************");		
+    	Server.PrintAndSendMsg(serversocket, "************************************************");		
 		Server.PrintAndSendMsg(serversocket, "*** PLAYERS BALANCES UPDATED ***");
 		for (Player player : players){
-			Server.PrintAndSendMsg(serversocket, "\n- " + player.getName() + " [Balance: " + player.getBalance() + "] ");
+			Server.PrintAndSendMsg(serversocket, "- " + player.getName() + " [Balance: " + player.getBalance() + "] ");
 		}
 	}
 
@@ -334,7 +346,7 @@ public class Game {
 						// Server.SendMsg(serversocket, "print:Please input your bet [1, 2] (Enter 0 to exit.): ");
 						
 						// oneBet = Integer.parseInt(Static.scannerObjectString());
-						Server.SendMsg(serversocket, "print: Pease input your bet [1,2] (Eneter 0 to exit.)");
+						Server.SendMsg(serversocket, "print: Pease input your bet [1,2] (Enter 0 to exit.)");
 						Server.SendMsg(serversocket, "input:");
 						oneBet = Integer.parseInt(Server.ReceiveMsg(serversocket));	
 
@@ -346,7 +358,7 @@ public class Game {
 							
 						}
 						else if (!(oneBet >= 1 && oneBet <= 2)){
-							Server.PrintAndSendMsg(serversocket, "\n\n>>> You only can place one bet in this range! [1, 2]");
+							Server.PrintAndSendMsg(serversocket, ">>> You only can place one bet in this range! [1, 2]");
 							Server.PrintAndSendMsg(serversocket, "Please try again...");
 							Server.PrintAndSendMsg(serversocket, "");
 						}
@@ -359,13 +371,13 @@ public class Game {
 						
 				}
 				catch (Exception e){
-					Server.PrintAndSendMsg(serversocket, "\n\n>>> Not a valid number!, please try again.");
+					Server.PrintAndSendMsg(serversocket, ">>> Not a valid number!, please try again.");
 					error = true;
 				}
 			}
 			while (error);
 		}
-		tmpmsg  = "-------------------------------------------------------------\n";
+		tmpmsg  = "-------------------------------------------------------------";
 		System.out.println(tmpmsg);
 		Server.SendMsg(serversocket, "print:" + tmpmsg);
 
@@ -399,10 +411,10 @@ public class Game {
 
 	public static void tableLeftPlayers(ArrayList<Player> leftPlayers, ServerSocket serversocket){
 		if (!leftPlayers.isEmpty()){
-			Server.PrintAndSendMsg(serversocket, "\n************************************************");		
+			Server.PrintAndSendMsg(serversocket, "************************************************");		
 			Server.PrintAndSendMsg(serversocket, "*** LEFT PLAYERS ***");
 			for (Player leftplayer : leftPlayers){
-				Server.PrintAndSendMsg(serversocket, "\n- " + leftplayer.getName()) ;
+				Server.PrintAndSendMsg(serversocket, "- " + leftplayer.getName()) ;
 			} 
 		}
 	}

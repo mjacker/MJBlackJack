@@ -51,6 +51,8 @@ public class Dealer extends Hand {
 	}
 
 	public void revealHiddenCard(){
+		Server.SendMsg(this.serversocket, "menu:cls");
+		Server.SendMsg(this.serversocket, "menu:welcome");
 		Static.CLS();
 		Menu.Welcome.printWelcome();
 		Card c = this.hiddencards.remove(0);

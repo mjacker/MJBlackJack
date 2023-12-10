@@ -13,6 +13,7 @@ import Objects.*;
 public class Client {
 
 	static String IP = "127.0.0.1";
+	// static String IP = "140.118.245.145";
 	static int PORT = 4999;
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
@@ -23,7 +24,8 @@ public class Client {
 		String cargs = "";
 		Scanner scnr = new Scanner(System.in);
 		String s = "";
-		while (true){
+		Boolean running = true;
+		while (running){
 			msg = ReceiveMsg();
 			parts = msg.split(":", 2);
 			command = parts[0];
@@ -31,7 +33,7 @@ public class Client {
 
 			// System.out.println("### msg: [" + msg + "]");
 			// System.out.println("### command: [" + command + "]");
-			// System.out.println("### cargs [: " + cargs + "]");
+			// System.out.println("### cargs: [" + cargs + "]");
 
 			if (command.equals("input")){
 				s = Static.scannerObjectString();
@@ -47,8 +49,12 @@ public class Client {
 						break;
 					case "cls":
 						Static.CLS();
+						break;
 					case "over":
 						GameOver.printGameOver();
+						scnr.close();
+						running = false;
+						break;
 					default:
 						break;
 				}
