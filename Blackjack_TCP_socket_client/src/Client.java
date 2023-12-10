@@ -13,35 +13,37 @@ public class Client {
 		// Socket s = new Socket("140.118.218.159",4999);
 
 
-		Card card = null;
+		Card card = new Card("2h");
+
+		// System.out.println(card.toString());
 
 
-		
 		// Loop to exchange messages with the server 15 times
-		for (int i=1; i<=2; i++ ) {
 			
-			// Prepare a message to send to the server
-			String messagefromclient = "Client send " + i + ":" + "Hello";
-			PrintWriter pr = new PrintWriter(s.getOutputStream());
-			
-			// Send the message to the server
-			pr.println(messagefromclient);
-			pr.flush();
-			
-			System.out.println(messagefromclient);
-			
-			// Set up input stream to read data from the server
-			InputStreamReader in = new InputStreamReader(s.getInputStream());
-			BufferedReader bf = new BufferedReader(in);
-			
-			// Read a message from the server
-			String str = bf.readLine();
-			System.out.println(str);
-			
-			// Pause for 1 second
-			System.out.println("------------------------------");
-			TimeUnit.SECONDS.sleep(1);
-		}
+		// Prepare a message to send to the server
+		//String message2send = "Hello";
+		//int message2send = 7;
+		String stringcard = card.toString();
+		
+		// Send the message to the server
+		PrintWriter pr = new PrintWriter(s.getOutputStream());
+		// pr.println(stringcard);
+		pr.println(stringcard);
+		pr.flush();
+		
+		// System.out.println(messagefromclient);
+		
+		// Set up input stream to read data from the server
+		InputStreamReader in = new InputStreamReader(s.getInputStream());
+		BufferedReader bf = new BufferedReader(in);
+		
+		// Read a message from the server
+		String str = bf.readLine();
+		System.out.println(str);
+		
+		// Pause for 1 second
+		System.out.println("------------------------------");
+		TimeUnit.SECONDS.sleep(1);
 		
 		// Close the socket
 		s.close();
