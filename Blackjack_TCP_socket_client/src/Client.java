@@ -1,7 +1,12 @@
 import java.net.*;
 import java.io.*;
 import java.util.concurrent.*;
+
+import Blackjack.Static;
+
 import java.util.Scanner;
+
+import Menu.Welcome;
 import Objects.*;
 
 public class Client {
@@ -11,15 +16,48 @@ public class Client {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
-
-		ReceiveMsg();
-
+		String msg = "";		
+		String [] parts = null;
+		String command = "";
+		String cargs = "";
 		Scanner scnr = new Scanner(System.in);
-        String s = scnr.nextLine();
-		scnr.close();
-		System.out.println("your name is:" + s);
-		SendMsg(s);
+		String s = "";
+		while (true){
+			msg = ReceiveMsg();
+			parts = msg.split(":", 2);
+			command = parts[0];
+			cargs  = parts[1];
 
+			// System.out.println("### msg: [" + msg + "]");
+			// System.out.println("### command: [" + command + "]");
+			// System.out.println("### cargs [: " + cargs + "]");
+
+			if (command.equals("input")){
+				s = Static.scannerObjectString();
+				SendMsg(s);
+
+				TimeUnit.MILLISECONDS.sleep(10);
+			
+			}
+			else if (command.equals("menu")){
+				switch (cargs) {
+					case "welcome":
+						Welcome.printWelcome();
+						break;
+					case "cls":
+						Static.CLS();
+				
+					default:
+						break;
+				}
+			}
+			else{
+				System.out.println(cargs);
+				TimeUnit.MILLISECONDS.sleep(10);
+			}
+			
+			
+		}
 
 		/* 
 		Card card = Receivecard();
@@ -74,7 +112,7 @@ public class Client {
 			pr.println(message);
 			pr.flush();
 		
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.MICROSECONDS.sleep(10);
 							
 			// Close the ServerSocket
 			socket.close();
@@ -96,7 +134,7 @@ public class Client {
 			// Read a message from the client
 			rcard = new Card(bf.readLine());
 
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.MICROSECONDS.sleep(10);
 				
 			// Close the ServerSocket
 			socket.close();
@@ -107,7 +145,8 @@ public class Client {
 		return rcard;
 	}
 
-	public static void ReceiveMsg(){
+	public static String ReceiveMsg(){
+		String message = "";
 		try {
 			Socket socket = new Socket("127.0.0.1",4999);
 		
@@ -115,17 +154,18 @@ public class Client {
 			InputStreamReader in = new InputStreamReader(socket.getInputStream());
 			BufferedReader bf = new BufferedReader(in);
 			// Read a message from the client
-			String message = bf.readLine();
+			message = bf.readLine();
 
-			System.out.println(message);
+			TimeUnit.MILLISECONDS.sleep(10);
 
-			TimeUnit.SECONDS.sleep(1);
-				
 			// Close the ServerSocket
 			socket.close();
+
+			return message;
 		}catch(Exception e) {
 			// Close the ServerSocket
 			// serversocket.close();
 		}
+		return message;
 	}
 }

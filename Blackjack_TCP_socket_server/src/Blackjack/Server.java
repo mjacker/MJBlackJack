@@ -22,7 +22,7 @@ public class Server {
 			pr.println(scard.toString());
 			pr.flush();
 
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.MILLISECONDS.sleep(10);
 					
 			// Close the ServerSocket
 			socket.close();
@@ -46,7 +46,7 @@ public class Server {
 			pr.println(msg);
 			pr.flush();
 
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.MILLISECONDS.sleep(10);
 					
 			// Close the ServerSocket
 			socket.close();
@@ -55,6 +55,31 @@ public class Server {
 			
 		}
 	}
+
+    	public static void PrintAndSendMsg(ServerSocket serversocket, String msg){
+		try{
+            
+			Socket socket = serversocket.accept();
+            
+            System.out.println(msg);
+
+			// Send the message to the server
+			PrintWriter pr = new PrintWriter(socket.getOutputStream());
+
+			// pr.println(stringcard);
+			pr.println("print:" + msg);
+			pr.flush();
+
+			TimeUnit.MILLISECONDS.sleep(10);
+					
+			// Close the ServerSocket
+			socket.close();
+		} catch (Exception e) {
+			//
+			
+		}
+	}
+
 
 	public static Card Receivecard(ServerSocket serversocket){
 		System.out.println("Wait for connection");
@@ -69,7 +94,7 @@ public class Server {
 			// Read a message from the client
 			rcard = new Card(bf.readLine());
 
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.MILLISECONDS.sleep(10);
 				
 			// Close the ServerSocket
 			socket.close();
@@ -92,7 +117,7 @@ public class Server {
 			// Read a message from the client
 			message = bf.readLine();
 
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.MILLISECONDS.sleep(10);
 				
 			// Close the ServerSocket
 			socket.close();
