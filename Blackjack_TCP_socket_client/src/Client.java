@@ -48,4 +48,41 @@ public class Client {
 		// Close the socket
 		s.close();
 	}
+
+		public static Card Receivecard(Socket socket){
+		// Create a ServerSocket that listens on port 4999
+		System.out.println("Wait for connection");
+		Card rcard = null;
+		try {
+		
+			// Set up input stream to read data from the client
+			InputStreamReader in = new InputStreamReader(socket.getInputStream());
+			BufferedReader bf = new BufferedReader(in);
+			// Read a message from the client
+			rcard = new Card(bf.readLine());
+			// System.out.println(receivecard.toString());
+		
+			// Prepare a message to send to the client
+			// String messagefromserver = "chau";
+			// System.out.println(messagefromserver);
+		
+			// Set up output stream to send data to the client
+			// PrintWriter pr = new PrintWriter(socket.getOutputStream());
+			// pr.println(messagefromserver);
+			// pr.flush();
+
+			// Pause for 1 second
+			// System.out.println("------------------------------");
+			TimeUnit.SECONDS.sleep(1);
+				
+			// Close the ServerSocket
+			socket.close();
+		}catch(Exception e) {
+			// Close the ServerSocket
+			// serversocket.close();
+		
+		}
+
+		return rcard;
+	}
 }
