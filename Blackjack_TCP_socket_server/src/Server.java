@@ -1,15 +1,20 @@
+
+import java.util.Scanner;
 import java.io.*;
-import java.net.*;
-import java.util.concurrent.*;
-import Objects.*;
+import Blackjack.*;
 
 public class Server {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
 		// Create a ServerSocket that listens on port 4999
-		ServerSocket serversocket = new ServerSocket(4999);
+	
+		Game game = new Game(1, 1);
+		game.rounds();
 
+	}
+
+/* 
 		Deck deck = new Deck(1);
 
 		Card c1 = deck.popCard();
@@ -31,55 +36,53 @@ public class Server {
 
 		serversocket.close();
 	}
-	public static Card SendCard(ServerSocket serversocket, Card scard){
-		// Create a ServerSocket that listens on port 4999
-		System.out.println("Wait for connection");
-		
-		try {
-			// Accept a client connection
-			Socket socket = serversocket.accept();
+	*/
 
-			// Send the message to the server
-			PrintWriter pr = new PrintWriter(socket.getOutputStream());
+	
 
-			// pr.println(stringcard);
-			pr.println(scard.toString());
-			pr.flush();
+	public static void CLS() {
+		try
+		{
+			final String os = System.getProperty("os.name");
 
-			TimeUnit.SECONDS.sleep(1);
-					
-			// Close the ServerSocket
-			socket.close();
+			System.out.println(os);
+			
+			if (os.contains("Windows"))
+			{
+				// Runtime.getRuntime().exec("cls");
+				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
-		}catch(Exception e) {
-			// Close the ServerSocket
-			// socket.close();
+			}
+			else
+			{
+				Runtime.getRuntime().exec("clear");
+			}
 		}
-
-		return scard;
+		catch (IOException | InterruptedException ex) {}
 	}
 
-	public static Card Receivecard(ServerSocket serversocket){
-		System.out.println("Wait for connection");
-		Card rcard = null;
-		try {
-			// Accept a client connection
-			Socket socket = serversocket.accept();
-		
-			// Set up input stream to read data from the client
-			InputStreamReader in = new InputStreamReader(socket.getInputStream());
-			BufferedReader bf = new BufferedReader(in);
-			// Read a message from the client
-			rcard = new Card(bf.readLine());
+	public static String scannerObjectString(/*Scanner scnr*/){
+    	Scanner scnr = new Scanner(System.in);
+        String s = scnr.nextLine();
 
-			TimeUnit.SECONDS.sleep(1);
-				
-			// Close the ServerSocket
-			socket.close();
-		}catch(Exception e) {
-			// Close the ServerSocket
-			// socket.close();
+		// this scanner should be closed and open when calling this method
+		// but it is not working in that way.
+		// scnr.close();
+        return s;
+    }
+		public static void wait(int ms)
+	{
+		try
+		{
+			Thread.sleep(ms);
 		}
-		return rcard;
+	    catch(InterruptedException ex)
+		{
+			Thread.currentThread().interrupt();
+	    }
 	}
+
+	public static String fixedLengthString(String string, int length) {
+ 	   return String.format("%1$"+length+ "s", string);
+	}	
 }

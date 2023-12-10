@@ -1,6 +1,7 @@
 import java.net.*;
 import java.io.*;
 import java.util.concurrent.*;
+import java.util.Scanner;
 import Objects.*;
 
 public class Client {
@@ -10,6 +11,17 @@ public class Client {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
+
+		ReceiveMsg();
+
+		Scanner scnr = new Scanner(System.in);
+        String s = scnr.nextLine();
+		scnr.close();
+		System.out.println("your name is:" + s);
+		SendMsg(s);
+
+
+		/* 
 		Card card = Receivecard();
 
 		System.out.println("The receive card is: " + card.toString());
@@ -25,6 +37,7 @@ public class Client {
 		SendCard(c1);
 		SendCard(c2);
 		SendCard(c3);
+		*/
 	}
 		
 	public static Card SendCard(Card scard){
@@ -50,6 +63,28 @@ public class Client {
 		return scard;
 	}
 
+	public static void SendMsg(String message){
+		try {
+			Socket socket = new Socket(IP, PORT);
+		
+			// Send the message to the server
+			PrintWriter pr = new PrintWriter(socket.getOutputStream());
+	
+			// pr.println(stringcard);
+			pr.println(message);
+			pr.flush();
+		
+			TimeUnit.SECONDS.sleep(1);
+							
+			// Close the ServerSocket
+			socket.close();
+		
+		}catch(Exception e) {
+			// Close the ServerSocket
+			// serversocket.close();
+		}
+	}
+
 	public static Card Receivecard(){
 		Card rcard = null;
 		try {
@@ -70,5 +105,27 @@ public class Client {
 			// serversocket.close();
 		}
 		return rcard;
+	}
+
+	public static void ReceiveMsg(){
+		try {
+			Socket socket = new Socket("127.0.0.1",4999);
+		
+			// Set up input stream to read data from the client
+			InputStreamReader in = new InputStreamReader(socket.getInputStream());
+			BufferedReader bf = new BufferedReader(in);
+			// Read a message from the client
+			String message = bf.readLine();
+
+			System.out.println(message);
+
+			TimeUnit.SECONDS.sleep(1);
+				
+			// Close the ServerSocket
+			socket.close();
+		}catch(Exception e) {
+			// Close the ServerSocket
+			// serversocket.close();
+		}
 	}
 }
