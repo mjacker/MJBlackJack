@@ -11,7 +11,8 @@ import Objects.Player;
 
 
 public class Game {
-    Dealer dealer = new Dealer();
+	ServerSocket serversocket = new ServerSocket(4999);
+    Dealer dealer = new Dealer(this.serversocket);
     // Declare the deck card
     Deck deck;
     
@@ -24,7 +25,6 @@ public class Game {
 	int delayTime = 500;
 
 	// ServerSocket serverSocket = null;
-	ServerSocket serversocket = new ServerSocket(4999);
 
     
 	// Constructor
@@ -154,8 +154,8 @@ public class Game {
 			
 			// // Here could wait 3 second to next screen or, press enter to continue
 			// Static.wait(3000);	
-			System.out.println("Press to continue...");
-			Static.scannerObjectString();
+			Server.PrintAndSendMsg(this.serversocket, "Press to continue...");
+			// Static.scannerObjectString();
 			
     		
 			// Dealer interact with each player 
@@ -176,7 +176,7 @@ public class Game {
 				// System.out.println(player.getCards());
 
 				// Dealer ask to current player (for homework2 there is only one player, for miniproject added nplayers
-				while (!player.isBust() && dealer.askHitOrStand(player)) {
+				while (!player.isBust() && dealer.askHitOrStand(this.serversocket, player)) {
 					System.out.println(player.getName() +" action is: " + player.getAction());
 
 					// check message value
@@ -230,7 +230,9 @@ public class Game {
 
 			System.out.println("\n\n>> Press enter to go to next round...");
 			System.out.println("\n************************************************");		
-			Static.scannerObjectString();
+			Server.SendMsg(this.serversocket, "input:");
+
+			// Static.scannerObjectString();
     	}
 		Static.CLS();
 		Menu.Welcome.printWelcome();
