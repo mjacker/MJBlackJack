@@ -1,19 +1,24 @@
 import java.net.*;
 import java.io.*;
 import java.util.concurrent.*;
+import Objects.*;
 
 public class Client {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
 		// Connect to the server on localhost (127.0.0.1) and port 4999
-		// Socket s = new Socket("127.0.0.1",4999);
+		Socket s = new Socket("127.0.0.1",4999);
 		// Socket s = new Socket("140.118.245.205",4999);
-		Socket s = new Socket("140.118.218.159",4999);
+		// Socket s = new Socket("140.118.218.159",4999);
+
+
+		Card card = null;
+
 
 		
 		// Loop to exchange messages with the server 15 times
-		for (int i=1; i<=3; i++ ) {
+		for (int i=1; i<=2; i++ ) {
 			
 			// Prepare a message to send to the server
 			String messagefromclient = "Client send " + i + ":" + "Hello";
